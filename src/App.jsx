@@ -1,25 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
-  // CREAR UN OBJETO DE DATOS QUE VARIA 
- const me = {
-  name:'Lucerin',
-  movie: 'Shrek',
-  music: 'Pop'
-  }
+  //llamando a una API
+const [character, setCharacter] = useState({})
+//haciendo la peticion con el useEffect
+useEffect(() => {
+  /*axios punto metodo get*/
+axios.get('https://www.breakingbadapi.com/api/characters/random')
+ /*https://www.breakingbadapi.com/api/
+->(base url) +
+ /api/characters 
+->(Endpoint)*/
+.then(res => setCharacter(res.data));
+/*en el then recibo la respuesta y aqui voy a setear mi estado
+la res siempre va aser un objeto*/
+console.log(character);/*aqui voy a ver que esta almacenando la respuesta de la API*/
+}, []); /*[] es un arreglo de dependencia*/
   return (
   <div className= 'App'>
-    <div className= 'card'>
-    <h1 className= 'red' >Sobre mí</h1>
-   <ul>
-   <li>{me.name}</li>  {/* AHORA EL NOMBRE VARIA */}
-    <li>{me.movie}</li>
-    <li>{me.music}</li>
-   </ul>
-   </div>
+      <h1>{character[0]?.name}</h1>
+      <img src={character[0]?.img} alt="" />
+   
   </div>
 
    );
